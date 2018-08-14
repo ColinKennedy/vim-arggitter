@@ -1,15 +1,23 @@
-" Enter it using 'gt' and exit it, using '<ESC>'
-"     a = stage the current hunk
-"     n = go to the next hunk (if needed, wrap to the beginning of the file)
-"     N = go to the previous hunk
-"     p = go to the previous hunk
-"     u = undo (reset) hunk
+if !has('python') && !has('pythonx') && !has('python3')
+    echo 'Python is not installed. This plug-in requires Python to run. Exitting.'
+    finish
+endif
+
+" Create a new mode in Vim that is similar to `git add -p`.
+" Enter it using 'gm' and exit it, using '<ESC>'.
 "
-"     c = Create a commit window
-"     s = Show the repo-status
-"     b = Run Git blame in a customized window
-"     wa = Git add %:p:h
-"     l = Shows the repository log
+" Commands:
+"      a = stage the current hunk
+"      n = go to the next hunk (if needed, wrap to the beginning of the file)
+"      N = go to the previous hunk
+"      p = go to the previous hunk
+"      u = undo (reset) hunk
+"
+"      c = Create a commit window
+"      s = Show the repo-status
+"      b = Run Git blame in a customized window
+"      wa = Git add %:p:h
+"      l = Shows the repository log
 "
 function! arggitter#arggitter#create_git_submode()
     call submode#enter_with('GIT', 'n', '', 'gm', '<ESC>:call arggitter#utility#enter()<CR>')
@@ -38,6 +46,7 @@ function! arggitter#arggitter#create_git_submode()
 endfunction
 
 
+" Go to the next hunk in the current file or skip to the next file in the user's arg list.
 function! arggitter#arggitter#next_hunk()
     if s:IsLastHunk() && arggitter#utility#is_end_of_arg_list()
         return
@@ -60,6 +69,7 @@ function! arggitter#arggitter#next_hunk()
 endfunction
 
 
+" Go to the previous hunk in the current file or skip to a previous file in the user's arg list.
 function! arggitter#arggitter#previous_hunk()
     if s:IsFirstHunk() && arggitter#utility#is_start_of_arg_list()
         return
@@ -82,10 +92,8 @@ function! arggitter#arggitter#previous_hunk()
 endfunction
 
 
-" Navigate through Vim's arg list for files with changes
-"
+" Check if the user is at the first hunk in the current file.
 " Reference: https://github.com/airblade/vim-gitgutter/blob/master/README.mkd
-"
 function! s:IsFirstHunk()
     let l:row = line('.')
     let l:column = col('.')
@@ -105,6 +113,7 @@ function! s:IsFirstHunk()
 endfunction
 
 
+" Check if the user is at the last hunk in the current file.
 function! s:IsLastHunk()
     let l:row = line('.')
     let l:column = col('.')
