@@ -136,7 +136,7 @@ def get_unstaged_git_files(path):
     root = get_parent_git_root(path)
     command = 'git -C "{root}" diff --name-only'.format(root=root)
     result = subprocess.check_output([command], shell=True)
-    return result.split()
+    return result.splitlines()
 
 
 def sort_by_items(special_items, item):

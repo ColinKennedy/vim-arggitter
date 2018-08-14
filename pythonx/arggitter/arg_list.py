@@ -15,22 +15,31 @@ def is_focused(item):
 def is_end_of_arg_list():
     '''bool: If the user is at the end of all the files listed in the arg-list.'''
     try:
-        last = get_args()[-1].strip()
-    except IndexError:
+        vim.command('next')
+    except Exception:
         return True
+    else:
+        try:
+            vim.command('previous')
+        except Exception:
+            pass
 
-    return is_focused(last)
+        return False
 
 
 def is_start_of_arg_list():
     '''bool: If the user is at the start of all the files listed in the arg-list.'''
     try:
-        first = get_args()[0].strip()
-    except IndexError:
+        vim.command('previous')
+    except Exception:
         return True
+    else:
+        try:
+            vim.command('next')
+        except Exception:
+            pass
 
-    return is_focused(first)
-
+        return False
 
 def get_unfocused_name(item):
     '''str: Remove Vim's "[]" text around a file path.'''
