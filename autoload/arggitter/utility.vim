@@ -20,7 +20,7 @@ function! Capture(excmd) abort  " from tpope's scriptease.vim
 endfunction
 
 
-function! arggitter#is_start_of_arg_list()
+function! arggitter#utility#is_start_of_arg_list()
 python << EOF
 import arggitter
 reload(arggitter)
@@ -37,7 +37,7 @@ EOF
 endfunction
 
 
-function! arggitter#is_end_of_arg_list()
+function! arggitter#utility#is_end_of_arg_list()
 python << EOF
 import arggitter
 reload(arggitter)
@@ -54,7 +54,7 @@ EOF
 endfunction
 
 
-function! arggitter#enter()
+function! arggitter#utility#enter()
     call s:SaveArgList()
     call s:ClearArgList()
     call s:OverrideArgList()
@@ -66,7 +66,7 @@ EOF
 endfunction
 
 
-function! arggitter#exit()
+function! arggitter#utility#exit()
     call s:ClearArgList()
     call s:RestoreArgList()
 endfunction
