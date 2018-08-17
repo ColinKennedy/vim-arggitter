@@ -123,20 +123,42 @@ def get_parent_git_root(path):
     return ''
 
 
-def get_unstaged_git_files(path):
+def get_unstaged_git_files(path, allow_submodules=False):
     '''Find the unstaged files in a git repository.
 
     Args:
-        path (str): The absolute path to some git repository.
+        path (str):
+            The absolute path to some git repository.
+        allow_submodules (:obj:`bool`, optional):
+            If True, submodules will be included in the output.
+            If False, they will be filtered out.
+            Default is False.
 
     Returns:
         list[str]: The found files. Each file's path is relative to `path`.
 
     '''
+    def _is_submodule(root):
+        # This command returns nothing if it is not a submodule
+        result = subprocess.check_output(
+            ['git -C "{root}" rev-parse --show-superproject-working-tree'.format(root=root)],
+            shell=True,
+        )
+
+        return bool(result)
+
     root = get_parent_git_root(path)
     command = 'git -C "{root}" diff --name-only'.format(root=root)
     result = subprocess.check_output([command], shell=True)
-    return result.splitlines()
+    output = []
+    for item in result.splitlines():
+        subpath = os.path.join(root, item)
+        if not allow_submodules and os.path.isdir(subpath) and _is_submodule(subpath):
+            continue
+
+        output.append(item)
+
+    return output
 
 
 def sort_by_items(special_items, item):

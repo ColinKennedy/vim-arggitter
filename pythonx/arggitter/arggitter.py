@@ -64,9 +64,17 @@ def override_arg_list():
     the arg-list's file file path is given focus, instead.
 
     '''
+    def _allow_submodules():
+        try:
+            return bool(int(vim.eval('g:arggitter_allow_submodules')))
+        except Exception:
+            return False
+
     root = filer.get_current_git_root()
     current_file = filer.get_current_absolute_path()
-    unstaged_files = (_esc(os.path.join(root, path)) for path in filer.get_unstaged_git_files(root))
+    unstaged_files = (
+        _esc(os.path.join(root, path))
+        for path in filer.get_unstaged_git_files(root, allow_submodules=_allow_submodules()))
     unstaged_files = filer.sort_items(unstaged_files, [current_file])
 
     arg_list.add_to_arg_list(unstaged_files)
