@@ -43,7 +43,7 @@ def is_start_of_arg_list():
 
 def get_unfocused_name(item):
     '''str: Remove Vim's "[]" text around a file path.'''
-    return item.lstrip('[').rstrip(']')
+    return item.lstrip('[\n\t ').rstrip(']\n\t ')
 
 
 def get_args(strip=False, fake='__capture'):
