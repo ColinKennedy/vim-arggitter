@@ -28,7 +28,7 @@ def enter_arg_list():
     This function will change the user's current buffer to the focused arg-list item.
 
     '''
-    file_name = os.path.basename(filer.get_current_absolute_path())
+    file_name = filer.get_current_absolute_path()
 
     for item in arg_list.get_args():
         if arg_list.is_focused(item):
