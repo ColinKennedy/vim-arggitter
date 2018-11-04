@@ -1,8 +1,3 @@
-if !has('python') && !has('pythonx') && !has('python3')
-    echo 'Python is not installed. This plug-in requires Python to run. Exitting.'
-    finish
-endif
-
 " Create a new mode in Vim that is similar to `git add -p`.
 " Enter it using 'gm' and exit it, using '<ESC>'.
 "

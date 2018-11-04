@@ -3,8 +3,6 @@ if !exists('g:arg_list_temp_file')
 endif
 
 
-" TODO: See if I can place this into the Python module, instead
-"
 function! Capture(excmd) abort  " from tpope's scriptease.vim
     try
         redir => out
