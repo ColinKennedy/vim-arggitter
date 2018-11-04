@@ -1,21 +1,88 @@
-This plug-in is a tool that lets you change your Vim context into a
-"git-commit" terminal. It's similar to `git add -p` but, instead of moving in a
-CLI, you stay right in Vim.
-
-On its own, it's not very powerful but it can intergrate into other plug-ins,
-such as vim-submode.
-
-Requires:
-	github.com/ColinKennedy/vim-submode
-	Git 2.13 for a submodule check function
+The vim-arggitter Vim plugin brings `git add -p` to Vim.
 
 
-Setup:
-	Add this line to your `.vimrc`
+## Requirements
+- [vim-submode](https://www.github.com/ColinKennedy/vim-submode)
+- Git 2.13+
+
+
+## Installation
+- Install everything in [Requirements](#Requirements)
+- Add vim-arggitter using either a [plugin manager](#Plugin-Manager-Installation)
+  or [manually](#Manual-Installation)
+- Define a mapping to enter GIT mode
+
+
+### Plugin Manager Installation
+I use [vim-plug](https://github.com/junegunn/vim-plug) to install
+all of my plugins. The code to add it below looks like this:
 
 ```vim
-call arggitter#arggitter#create_git_submode()
+Plug 'ColinKennedy/vim-arggitter'
 ```
 
-Reference:
-	https://stackoverflow.com/questions/7359204/git-command-line-know-if-in-submodule
+However this plugin should work with any plugin manager.
+
+
+### Manual Installation
+Clone this repository:
+
+```bash
+git clone https://github.com/ColinKennedy/vim-arggitter
+```
+
+Move the files to their respective folders in your `~/.vim` directory
+(or your `$HOME\vimfiles` directory if you're on Windows)
+
+
+## Usage
+- Open a buffer that is being tracked by a Git repository
+- Press that mapping to enter GIT mode
+- Press "a" to add hunks, "n" to skip
+
+
+## Mappings
+vim-arggitter uses mappings that are "vim-friendly". If you want the same mappings
+as you'd use for `git add -p`, add this line to your `~/.vimrc`:
+
+TODO Implement this:
+
+```vim
+```
+
+### Motivation
+While working in a repository, I'd to leave Vim, run `git add -p`, and then
+add hunks of text and commit them. Usually while in the interactive window,
+I'll spot an error or something that I need to change. So I'd have to press `q`
+to quit out of the interactive mode, open the bad file, make the change, then
+leave Vim again and do `git add -p`. The worst is when I have several hunks
+that I don't want to commit yet. I'd have to skip over them again each time to
+get back to the hunk(s) that I wanted to commit.
+
+I once thought "Wouldn't be it nice if I could do all this directly within Vim?"
+Thus, vim-arggitter was born.
+
+
+## Extensions
+vim-arggitter integrates with [vim-fugitive](https://www.github.com/tpope/vim-fugitive)
+to add some extra commands. It's not required to run but they tend to be nice
+to have.
+
+If `g:arggitter_git_mappings` is `0` and vim-fugitive is installed, the
+following mappings are added:
+
+Gblame  let g:arggitter_fugitive_blame_mapping = 'b'  Shows a blame side-bar
+Gcommit  let g:arggitter_fugitive_commit_mapping = 'c'  Shows the repository's commits in a separate buffer
+Gstatus  let g:arggitter_fugitive_status_mapping = 's'  Shows the repository's status in a separate buffer
+Gwrite  let g:arggitter_fugitive_write_mapping = 'w'  Commits the
+Glog  let g:arggitter_fugitive_log_qf_mapping = 'l'
+Glog -- %  let g:arggitter_fugitive_log_summary_mapping = 'i'
+
+
+## Customization
+
+"     This function relies on "g:arg_list_temp_file" to write to disk.
+
+
+TODO
+TODO Make sure that this plugin works in Windows for the temp file...
