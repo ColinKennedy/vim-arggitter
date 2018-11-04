@@ -5,39 +5,37 @@
 "      a = stage the current hunk
 "      n = go to the next hunk (if needed, wrap to the beginning of the file)
 "      N = go to the previous hunk
-"      p = go to the previous hunk
 "      u = undo (reset) hunk
 "
 "      c = Create a commit window
 "      s = Show the repo-status
 "      b = Run Git blame in a customized window
-"      wa = Git add %:p:h
+"      w = Git add %:p:h
 "      l = Shows the repository log
 "
 function! arggitter#arggitter#create_git_submode()
-    call submode#enter_with('GIT', 'n', '', 'gm', '<ESC>:call arggitter#utility#enter()<CR>')
-    call submode#leave_with('GIT', 'n', '', '<ESC>', '<ESC>:call arggitter#utility#exit()<CR>')
-    call submode#map('GIT', 'n', '', 'a', '<ESC>:GitGutterStageHunk<CR>:call arggitter#arggitter#next_hunk()<CR>zz')
-    call submode#map('GIT', 'n', '', 'n', '<ESC>:call arggitter#arggitter#next_hunk()<CR>zz')
-    call submode#map('GIT', 'n', '', 'N', '<ESC>:call arggitter#arggitter#previous_hunk()<CR>zz')
-    call submode#map('GIT', 'n', '', 'p', '<ESC>:call arggitter#arggitter#previous_hunk()<CR>zz')
-    call submode#map('GIT', 'n', '', 'u', '<ESC>:GitGutterUndoHunk<CR>gm')
+    call submode#enter_with('ARGGITTER', 'n', '', 'gm', '<ESC>:call arggitter#utility#enter()<CR>')
+    call submode#leave_with('ARGGITTER', 'n', '', '<ESC>', '<ESC>:call arggitter#utility#exit()<CR>')
+    call submode#map('ARGGITTER', 'n', '', 'a', '<ESC>:GitGutterStageHunk<CR>:call arggitter#arggitter#next_hunk()<CR>zz')
+    call submode#map('ARGGITTER', 'n', '', 'n', '<ESC>:call arggitter#arggitter#next_hunk()<CR>zz')
+    call submode#map('ARGGITTER', 'n', '', 'N', '<ESC>:call arggitter#arggitter#previous_hunk()<CR>zz')
+    call submode#map('ARGGITTER', 'n', '', 'u', '<ESC>:GitGutterUndoHunk<CR>gm')
 
-    call submode#map('GIT', 'n', '', 'b', '<ESC>:Gblame<CR>')
-    call submode#map('GIT', 'n', '', 'c', '<ESC>:Gcommit<CR>')
-    call submode#map('GIT', 'n', '', 's', '<ESC>:Gstatus<CR>')
-    call submode#map('GIT', 'n', '', 'wa', '<ESC>:Gwrite<CR>')
+    call submode#map('ARGGITTER', 'n', '', 'b', '<ESC>:Gblame<CR>')
+    call submode#map('ARGGITTER', 'n', '', 'c', '<ESC>:Gcommit<CR>')
+    call submode#map('ARGGITTER', 'n', '', 's', '<ESC>:Gstatus<CR>')
+    call submode#map('ARGGITTER', 'n', '', 'w', '<ESC>:Gwrite<CR>')
 
     " This will show the log messages for your current file, in a QuickFix
-    call submode#map('GIT', 'n', '', 'l', '<ESC>:Glog<CR>')
+    call submode#map('ARGGITTER', 'n', '', 'l', '<ESC>:Glog<CR>')
     " This will load the file into a summary+tree, instead of a QuickFix
-    call submode#map('GIT', 'n', '', 'i', '<ESC>:Glog -- %<CR>')
+    call submode#map('ARGGITTER', 'n', '', 'i', '<ESC>:Glog -- %<CR>')
 
-    " A couple hotkeys to make it easier to look around, in GIT mode
-    call submode#map('GIT', 'n', '', 'gg', '<ESC>gg')
-    call submode#map('GIT', 'n', '', 'G', '<ESC>G')
-    call submode#map('GIT', 'n', '', 'zt', '<ESC>zt')
-    call submode#map('GIT', 'n', '', 'zb', '<ESC>zb')
+    " A couple hotkeys to make it easier to look around, in ARGGITTER mode
+    call submode#map('ARGGITTER', 'n', '', 'gg', '<ESC>gg')
+    call submode#map('ARGGITTER', 'n', '', 'G', '<ESC>G')
+    call submode#map('ARGGITTER', 'n', '', 'zt', '<ESC>zt')
+    call submode#map('ARGGITTER', 'n', '', 'zb', '<ESC>zb')
 endfunction
 
 
