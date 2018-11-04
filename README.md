@@ -1,16 +1,20 @@
 The vim-arggitter Vim plugin brings `git add -p` to Vim.
 
+For those you that like demos:
+
+TODO add a demo
+
 
 ## Requirements
 - [vim-submode](https://www.github.com/ColinKennedy/vim-submode)
-- Git 2.13+
+- [Git 2.13+](https://github.com/git/git)
 
 
 ## Installation
 - Install everything in [Requirements](#Requirements)
 - Add vim-arggitter using either a [plugin manager](#Plugin-Manager-Installation)
   or [manually](#Manual-Installation)
-- Define a mapping to enter GIT mode
+- Define a mapping to enter ARGGITTER mode, if you want
 
 
 ### Plugin Manager Installation
@@ -37,8 +41,9 @@ Move the files to their respective folders in your `~/.vim` directory
 
 ## Usage
 - Open a buffer that is being tracked by a Git repository
-- Press that mapping to enter GIT mode
-- Press "a" to add hunks, "n" to skip
+- Press that mapping to enter ARGGITTER mode
+- Press "a" to add hunks, "n" to skip. For a full list of mappings,
+  check [Mappings](#Mappings)
 
 
 ## Mappings
@@ -57,7 +62,8 @@ I'll spot an error or something that I need to change. So I'd have to press `q`
 to quit out of the interactive mode, open the bad file, make the change, then
 leave Vim again and do `git add -p`. The worst is when I have several hunks
 that I don't want to commit yet. I'd have to skip over them again each time to
-get back to the hunk(s) that I wanted to commit.
+get back to the hunk(s) that I wanted to commit. Having a separate window open
+for git and one for Vim helped but it was still very annoying.
 
 I once thought "Wouldn't be it nice if I could do all this directly within Vim?"
 Thus, vim-arggitter was born.
@@ -71,16 +77,26 @@ to have.
 If `g:arggitter_git_mappings` is `0` and vim-fugitive is installed, the
 following mappings are added:
 
-Gblame  let g:arggitter_fugitive_blame_mapping = 'b'  Shows a blame side-bar
-Gcommit  let g:arggitter_fugitive_commit_mapping = 'c'  Shows the repository's commits in a separate buffer
-Gstatus  let g:arggitter_fugitive_status_mapping = 's'  Shows the repository's status in a separate buffer
-Gwrite  let g:arggitter_fugitive_write_mapping = 'w'  Commits the
-Glog  let g:arggitter_fugitive_log_qf_mapping = 'l'
-Glog -- %  let g:arggitter_fugitive_log_summary_mapping = 'i'
+Gblame|let g:arggitter_fugitive_blame_mapping = 'b'|Shows a blame side-bar
+Gcommit|let g:arggitter_fugitive_commit_mapping = 'c'|Shows the repository's commits in a separate buffer
+Gstatus|let g:arggitter_fugitive_status_mapping = 's'|Shows the repository's status in a separate buffer
+Gwrite|let g:arggitter_fugitive_write_mapping = 'w'|Commits the whole file to git
+Glog|let g:arggitter_fugitive_log_qf_mapping = 'l'|Shows the commit logs as a QuickFix window
+Glog -- %|let g:arggitter_fugitive_log_summary_mapping = 'i'|Shows the commit logs as a summary tree
+
+
+|  Command  |                      Mapping                       |                     Description                     |
+|-----------|----------------------------------------------------|-----------------------------------------------------|
+| Gblame    | let g:arggitter_fugitive_blame_mapping = 'b'       | Shows a blame side-bar                              |
+| Gcommit   | let g:arggitter_fugitive_commit_mapping = 'c'      | Shows the repository's commits in a separate buffer |
+| Gstatus   | let g:arggitter_fugitive_status_mapping = 's'      | Shows the repository's status in a separate buffer  |
+| Gwrite    | let g:arggitter_fugitive_write_mapping = 'w'       | Commits the whole file to git                       |
+| Glog      | let g:arggitter_fugitive_log_qf_mapping = 'l'      | Shows the commit logs as a QuickFix window          |
+| Glog -- % | let g:arggitter_fugitive_log_summary_mapping = 'i' | Shows the commit logs as a summary tree             |
+
 
 
 ## Customization
-
 "     This function relies on "g:arg_list_temp_file" to write to disk.
 
 
