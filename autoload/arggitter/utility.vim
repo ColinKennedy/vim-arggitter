@@ -17,7 +17,7 @@ endfunction
 
 " bool: Find if the user has no more files to search through in the arg-list.
 function! arggitter#utility#is_start_of_arg_list()
-python << EOF
+pythonx << EOF
 from arggitter import arg_list
 
 if arg_list.is_start_of_arg_list():
@@ -34,7 +34,7 @@ endfunction
 
 " bool: Find if the user has no more files to search through in the arg-list.
 function! arggitter#utility#is_end_of_arg_list()
-python << EOF
+pythonx << EOF
 from arggitter import arg_list
 
 if arg_list.is_end_of_arg_list():
@@ -49,12 +49,12 @@ EOF
 endfunction
 
 
-" Initialize 'GIT' mode by saving the user's arg-list and replacing it with our own.
+" Initialize 'ARGGITTER' mode by saving the user's arg-list and replacing it with our own.
 function! arggitter#utility#enter()
     call s:SaveArgList()
     call s:ClearArgList()
     call s:OverrideArgList()
-python << EOF
+pythonx << EOF
 from arggitter import arggitter
 arggitter.enter_arg_list()
 EOF
@@ -84,7 +84,7 @@ endfunction
 "     The repository that is searched for is relative to the user's current buffer.
 "
 function! s:OverrideArgList()
-python << EOF
+pythonx << EOF
 from arggitter import arggitter
 arggitter.override_arg_list()
 EOF
@@ -93,7 +93,7 @@ endfunction
 
 " Read the user's saved arg-list and apply it to the current session.
 function! s:RestoreArgList()
-python << EOF
+pythonx << EOF
 from arggitter import arggitter
 arggitter.restore_arg_list()
 EOF
@@ -106,7 +106,7 @@ endfunction
 "     This function relies on "g:arg_list_temp_file" to write to disk.
 "
 function! s:SaveArgList()
-python << EOF
+pythonx << EOF
 from arggitter import arggitter
 arggitter.save_arg_list()
 EOF
