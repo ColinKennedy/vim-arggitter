@@ -66,22 +66,6 @@ def _split_path_asunder(path):
     return parts
 
 
-def get_arg_list_path():
-    '''Get the path to where the user's stored arg-list is.
-
-    Raises:
-        EnvironmentError: If the user doesn't have "g:arg_list_temp_file" defined.
-
-    Returns:
-        str: The absolute path to some temporary file.
-
-    '''
-    try:
-        return vim.eval('g:arg_list_temp_file')
-    except Exception:
-        raise EnvironmentError('g:arg_list_temp_file must be defined')
-
-
 def get_current_absolute_path():
     '''str: The absolute path to the user's current file.'''
     return vim.eval("expand('%')")

@@ -58,13 +58,7 @@ let g:arggitter_use_git_mappings = 1
 
 
 ## Customization
-"     This function relies on "g:arg_list_temp_file" to write to disk.
-
-
-TODO
-TODO Make sure that this plugin works in Windows for the temp file...
-
-            return bool(int(vim.eval('g:arggitter_allow_submodules')))
+return bool(int(vim.eval('g:arggitter_allow_submodules')))
 
 Add an option to restore buffers
 
@@ -72,6 +66,12 @@ Remove the "zz"s. People won't like those.
 
 
 ## Extensions
+If you have [vim-fugitive](https://github.com/tpope/vim-fugitive) installed on
+your user and `g:arggitter_use_git_mappings` is `0` then vim-arggitter adds
+extra commands. They're not required for vim-arggitter to run but are nice to
+have.
+
+
 |  Command  |                      Mapping                       |                     Description                     |
 |-----------|----------------------------------------------------|-----------------------------------------------------|
 | Gblame    | let g:arggitter_fugitive_blame_mapping = 'b'       | Shows a blame side-bar                              |

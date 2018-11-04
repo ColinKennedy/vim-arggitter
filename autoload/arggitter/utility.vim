@@ -1,8 +1,3 @@
-if !exists('g:arg_list_temp_file')
-    let g:arg_list_temp_file = '/tmp/arg_list.txt'
-endif
-
-
 function! Capture(excmd) abort  " from tpope's scriptease.vim
     try
         redir => out
@@ -101,10 +96,6 @@ endfunction
 
 
 " Write the user's current arg-list to a temp file.
-"
-" Important:
-"     This function relies on "g:arg_list_temp_file" to write to disk.
-"
 function! s:SaveArgList()
 pythonx << EOF
 from arggitter import arggitter

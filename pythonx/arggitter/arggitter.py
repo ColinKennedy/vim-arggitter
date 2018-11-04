@@ -80,8 +80,6 @@ def override_arg_list():
 
 def restore_arg_list():
     '''Read the user's saved arg-list and apply it to the current session.'''
-    path = filer.get_arg_list_path()
-
     args = vim.eval('g:arggitter_temp_arg_list')
 
     unfocused_args = []
