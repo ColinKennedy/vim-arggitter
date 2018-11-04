@@ -15,27 +15,58 @@
 "
 function! arggitter#arggitter#create_git_submode()
     call submode#enter_with('ARGGITTER', 'n', '', 'gm', '<ESC>:call arggitter#utility#enter()<CR>')
-    call submode#leave_with('ARGGITTER', 'n', '', '<ESC>', '<ESC>:call arggitter#utility#exit()<CR>')
-    call submode#map('ARGGITTER', 'n', '', 'a', '<ESC>:GitGutterStageHunk<CR>:call arggitter#arggitter#next_hunk()<CR>zz')
-    call submode#map('ARGGITTER', 'n', '', 'n', '<ESC>:call arggitter#arggitter#next_hunk()<CR>zz')
-    call submode#map('ARGGITTER', 'n', '', 'N', '<ESC>:call arggitter#arggitter#previous_hunk()<CR>zz')
-    call submode#map('ARGGITTER', 'n', '', 'u', '<ESC>:GitGutterUndoHunk<CR>gm')
 
-    call submode#map('ARGGITTER', 'n', '', 'b', '<ESC>:Gblame<CR>')
-    call submode#map('ARGGITTER', 'n', '', 'c', '<ESC>:Gcommit<CR>')
-    call submode#map('ARGGITTER', 'n', '', 's', '<ESC>:Gstatus<CR>')
-    call submode#map('ARGGITTER', 'n', '', 'w', '<ESC>:Gwrite<CR>')
+    if get(g:, 'arggitter_use_git_mappings', 0) == 0
+        call submode#leave_with('ARGGITTER', 'n', '', '<ESC>', '<ESC>:call arggitter#utility#exit()<CR>')
+        call submode#map('ARGGITTER', 'n', '', 'aa', '<ESC>:GitGutterStageHunk<CR>:call arggitter#arggitter#next_hunk()<CR>zz')
+        call submode#map('ARGGITTER', 'n', '', 'aG', '<ESC>:call arggitter#arggitter#stage_hunks_in_file()<CR>zz')
+        call submode#map('ARGGITTER', 'n', '', 'nn', '<ESC>:call arggitter#arggitter#next_hunk()<CR>zz')
+        call submode#map('ARGGITTER', 'n', '', 'nG', '<ESC>:call arggitter#arggitter#next_file()<CR>zz')
+        call submode#map('ARGGITTER', 'n', '', 'N', '<ESC>:call arggitter#arggitter#previous_hunk()<CR>zz')
+        call submode#map('ARGGITTER', 'n', '', 'u', '<ESC>:GitGutterUndoHunk<CR>gm')
 
-    " This will show the log messages for your current file, in a QuickFix
-    call submode#map('ARGGITTER', 'n', '', 'l', '<ESC>:Glog<CR>')
-    " This will load the file into a summary+tree, instead of a QuickFix
-    call submode#map('ARGGITTER', 'n', '', 'i', '<ESC>:Glog -- %<CR>')
+        " A couple hotkeys to make it easier to look around, in ARGGITTER mode
+        call submode#map('ARGGITTER', 'n', '', 'gg', '<ESC>gg')
+        call submode#map('ARGGITTER', 'n', '', 'G', '<ESC>G')
+        call submode#map('ARGGITTER', 'n', '', 'zt', '<ESC>zt')
+        call submode#map('ARGGITTER', 'n', '', 'zb', '<ESC>zb')
+    else
+        call submode#map('ARGGITTER', 'n', '', 'y', '<ESC>:GitGutterStageHunk<CR>:call arggitter#arggitter#next_hunk()<CR>zz')
+        call submode#map('ARGGITTER', 'n', '', 'n', '<ESC>:call arggitter#arggitter#next_hunk()<CR>zz')
+        call submode#leave_with('ARGGITTER', 'n', '', 'q', '<ESC>:call arggitter#utility#exit()<CR>')
+        call submode#map('ARGGITTER', 'n', '', 'a', '<ESC>:GitGutterStageHunksInFile<CR>:call arggitter#arggitter#next_hunk()<CR>zz')
+        call submode#map('ARGGITTER', 'n', '', 'd', '<ESC>:call arggitter#arggitter#next_file()<CR>zz')
+    endif
 
-    " A couple hotkeys to make it easier to look around, in ARGGITTER mode
-    call submode#map('ARGGITTER', 'n', '', 'gg', '<ESC>gg')
-    call submode#map('ARGGITTER', 'n', '', 'G', '<ESC>G')
-    call submode#map('ARGGITTER', 'n', '', 'zt', '<ESC>zt')
-    call submode#map('ARGGITTER', 'n', '', 'zb', '<ESC>zb')
+    if get(g:, 'arggitter_use_git_mappings', 0) == 0 && exists('g:loaded_fugitive')
+        " If the user has vim-fugitive installed, add mappings for it
+        call submode#map('ARGGITTER', 'n', '', 'b', '<ESC>:Gblame<CR>')
+        call submode#map('ARGGITTER', 'n', '', 'c', '<ESC>:Gcommit<CR>')
+        call submode#map('ARGGITTER', 'n', '', 's', '<ESC>:Gstatus<CR>')
+        call submode#map('ARGGITTER', 'n', '', 'w', '<ESC>:Gwrite<CR>')
+
+        " This will show the log messages for your current file, in a QuickFix
+        call submode#map('ARGGITTER', 'n', '', 'l', '<ESC>:Glog<CR>')
+        " This will load the file into a summary+tree, instead of a QuickFix
+        call submode#map('ARGGITTER', 'n', '', 'i', '<ESC>:Glog -- %<CR>')
+    endif
+endfunction
+
+
+" Skip all of the hunks in this file and move onto the next one, if needed.
+function! arggitter#arggitter#next_file()
+    while !s:IsLastHunk()
+        try
+            GitGutterNextHunk
+        catch
+            return
+        endtry
+    endwhile
+
+    if !arggitter#utility#is_end_of_arg_list()
+        next
+        normal! 1G
+    endif
 endfunction
 
 
@@ -82,6 +113,41 @@ function! arggitter#arggitter#previous_hunk()
     endif
 
     GitGutterPrevHunk
+endfunction
+
+
+" Stage every hunk in the current file from the current cursor position.
+"
+" Once done, move to the next file.
+"
+function! arggitter#arggitter#stage_hunks_in_file()
+    while !s:IsLastHunk()
+        GitGutterStageHunk
+
+        try
+            GitGutterNextHunk
+        catch
+        endtry
+    endwhile
+
+    if s:IsLastHunk() && arggitter#utility#is_end_of_arg_list()
+        GitGutterStageHunk
+        return
+    endif
+
+    if s:IsLastHunk()
+        GitGutterStageHunk
+
+        next
+
+        normal! 1G
+
+        try
+            GitGutterNextHunk
+        catch
+            return
+        endtry
+    endif
 endfunction
 
 
