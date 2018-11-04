@@ -41,6 +41,7 @@ def is_start_of_arg_list():
 
         return False
 
+
 def get_unfocused_name(item):
     '''str: Remove Vim's "[]" text around a file path.'''
     return item.lstrip('[\n\t ').rstrip(']\n\t ')
@@ -81,3 +82,45 @@ def add_to_arg_list(items):
     '''
     command = 'argadd {items}'.format(items=' '.join(items))
     vim.command(command)
+
+
+def set_focus_to(arg):
+    '''Set the arglist to point to the given arg.
+
+    It's assumed that `arg` is an option in the user's current arglist.
+
+    Args:
+        arg (str): The file/buffer name to set focus onto.
+
+    Raises:
+        ValueError: If `arg` isn't in the current arglist.
+
+    '''
+    focused_arg_name = '[{arg}]'.format(arg=arg)
+    args = get_args()
+
+    if focused_arg_name in args:
+        # The file is already focused. That means there is nothing left to do
+        return
+
+    try:
+        destination = args.index(arg)
+    except ValueError:
+        raise ValueError('Arg "{arg}" was not found in arglist, "{args}".'
+                         ''.format(arg=arg, args=args))
+
+    source = 0
+    for index, arg in enumerate(args):
+        if is_focused(arg):
+            source = index
+
+    if source == destination:
+        return
+
+    command = 'next'
+    diff = abs(destination - source)
+
+    if destination < source:
+        command = 'previous'
+
+    vim.command('{diff}{command}'.format(diff=diff, command=command))

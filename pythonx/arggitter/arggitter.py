@@ -20,12 +20,12 @@ def _esc(path):
 
 
 def enter_arg_list():
-    '''Edit the file which is focused in the arg-list.
+    '''Edit the file which is focused_arg in the arg-list.
 
     Any time an arg-list is created, one file is given focus (e.g. it gets "[]"s
     added around its name).
 
-    This function will change the user's current buffer to the focused arg-list item.
+    This function will change the user's current buffer to the focused_arg arg-list item.
 
     '''
     file_name = filer.get_current_absolute_path()
@@ -45,10 +45,8 @@ def enter_arg_list():
 
 def save_arg_list():
     '''Gather the current arg-list and save it to a temporary file.'''
-    path = filer.get_arg_list_path()
-
-    with open(path, 'w') as file_:
-        file_.write('\n'.join(arg_list.get_args()))
+    args = ', '.join(('"{item}"'.format(item=item) for item in arg_list.get_args()))
+    vim.command('let g:arggitter_temp_arg_list = [{args}]'.format(args=args))
 
 
 def override_arg_list():
@@ -84,9 +82,20 @@ def restore_arg_list():
     '''Read the user's saved arg-list and apply it to the current session.'''
     path = filer.get_arg_list_path()
 
-    with open(path, 'r') as file_:
-        lines = []
-        for line in file_.readlines():
-            lines.append(arg_list.get_unfocused_name(line))
+    args = vim.eval('g:arggitter_temp_arg_list')
 
-    arg_list.add_to_arg_list(lines)
+    unfocused_args = []
+
+    focused_arg = ''
+
+    for arg in args:
+        if arg.startswith('[') and arg.endswith(']'):
+            arg = arg[1:-1]
+            focused_arg = arg
+
+        unfocused_args.append(arg)
+
+    arg_list.add_to_arg_list(unfocused_args)
+
+    if focused_arg:
+        arg_list.set_focus_to(focused_arg)

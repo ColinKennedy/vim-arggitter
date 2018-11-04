@@ -56,6 +56,7 @@ to your `~/.vimrc`:
 let g:arggitter_use_git_mappings = 1
 ```
 
+
 ## Customization
 "     This function relies on "g:arg_list_temp_file" to write to disk.
 
