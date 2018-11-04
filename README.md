@@ -70,21 +70,6 @@ Thus, vim-arggitter was born.
 
 
 ## Extensions
-vim-arggitter integrates with [vim-fugitive](https://www.github.com/tpope/vim-fugitive)
-to add some extra commands. It's not required to run but they tend to be nice
-to have.
-
-If `g:arggitter_git_mappings` is `0` and vim-fugitive is installed, the
-following mappings are added:
-
-Gblame|let g:arggitter_fugitive_blame_mapping = 'b'|Shows a blame side-bar
-Gcommit|let g:arggitter_fugitive_commit_mapping = 'c'|Shows the repository's commits in a separate buffer
-Gstatus|let g:arggitter_fugitive_status_mapping = 's'|Shows the repository's status in a separate buffer
-Gwrite|let g:arggitter_fugitive_write_mapping = 'w'|Commits the whole file to git
-Glog|let g:arggitter_fugitive_log_qf_mapping = 'l'|Shows the commit logs as a QuickFix window
-Glog -- %|let g:arggitter_fugitive_log_summary_mapping = 'i'|Shows the commit logs as a summary tree
-
-
 |  Command  |                      Mapping                       |                     Description                     |
 |-----------|----------------------------------------------------|-----------------------------------------------------|
 | Gblame    | let g:arggitter_fugitive_blame_mapping = 'b'       | Shows a blame side-bar                              |
