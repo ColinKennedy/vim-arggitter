@@ -6,6 +6,7 @@ TODO add a demo
 
 
 ## Requirements
+- Vim with Python compiled (2 or 3)
 - [vim-submode](https://www.github.com/ColinKennedy/vim-submode)
 - [Git 2.13+](https://github.com/git/git)
 
@@ -47,27 +48,14 @@ Move the files to their respective folders in your `~/.vim` directory
 
 
 ## Mappings
-vim-arggitter uses mappings that are "vim-friendly". If you want the same mappings
-as you'd use for `git add -p`, add this line to your `~/.vimrc`:
+By default, vim-arggitter uses mappings that are "vim-friendly".
+If you want the same mappings as you'd use for `git add -p`, add this line
+to your `~/.vimrc`:
 
 TODO Implement this:
-
 ```vim
+let g:arggitter_use_git_mappings = 1
 ```
-
-### Motivation
-While working in a repository, I'd to leave Vim, run `git add -p`, and then
-add hunks of text and commit them. Usually while in the interactive window,
-I'll spot an error or something that I need to change. So I'd have to press `q`
-to quit out of the interactive mode, open the bad file, make the change, then
-leave Vim again and do `git add -p`. The worst is when I have several hunks
-that I don't want to commit yet. I'd have to skip over them again each time to
-get back to the hunk(s) that I wanted to commit. Having a separate window open
-for git and one for Vim helped but it was still very annoying.
-
-I once thought "Wouldn't be it nice if I could do all this directly within Vim?"
-Thus, vim-arggitter was born.
-
 
 ## Extensions
 |  Command  |                      Mapping                       |                     Description                     |
@@ -80,6 +68,26 @@ Thus, vim-arggitter was born.
 | Glog -- % | let g:arggitter_fugitive_log_summary_mapping = 'i' | Shows the commit logs as a summary tree             |
 
 
+### Motivation
+If I wanted to commit hunks of changes to git, I'd to leave Vim,
+run `git add -p`, and then add the hunks, and commit them. Usually while
+in the interactive window, I'll spot an error or something that I need to change.
+So I'd have to press `q` to quit out of the interactive mode, open the bad file,
+make the change, then leave Vim again and do `git add -p`. The worst is when
+I have several hunks that I don't want to commit yet. I'd have to skip over them
+again each time to get back to the hunk(s) that I actually wanted to commit
+every time I needed to leave the interactive window. Having a separate window
+open for git and one for Vim helped but it was still very annoying.
+
+One day, I thought "Wouldn't be it nice if I could do all this directly within Vim?"
+Thus, vim-arggitter was born.
+
+
+## How Does It Work
+When ARGGITTER mode is activated, the files with unstaged changes are loaded
+into Vim's arglist. The arglist When the user exits, ARGGITTER returns the user's old
+arglist, if needed.
+
 
 ## Customization
 "     This function relies on "g:arg_list_temp_file" to write to disk.
@@ -87,3 +95,9 @@ Thus, vim-arggitter was born.
 
 TODO
 TODO Make sure that this plugin works in Windows for the temp file...
+
+            return bool(int(vim.eval('g:arggitter_allow_submodules')))
+
+Add an option to restore buffers
+
+Remove the "zz"s. People won't like those.
