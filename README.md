@@ -52,10 +52,23 @@ By default, vim-arggitter uses mappings that are "vim-friendly".
 If you want the same mappings as you'd use for `git add -p`, add this line
 to your `~/.vimrc`:
 
-TODO Implement this:
 ```vim
 let g:arggitter_use_git_mappings = 1
 ```
+
+## Customization
+"     This function relies on "g:arg_list_temp_file" to write to disk.
+
+
+TODO
+TODO Make sure that this plugin works in Windows for the temp file...
+
+            return bool(int(vim.eval('g:arggitter_allow_submodules')))
+
+Add an option to restore buffers
+
+Remove the "zz"s. People won't like those.
+
 
 ## Extensions
 |  Command  |                      Mapping                       |                     Description                     |
@@ -85,19 +98,6 @@ Thus, vim-arggitter was born.
 
 ## How Does It Work
 When ARGGITTER mode is activated, the files with unstaged changes are loaded
-into Vim's arglist. The arglist When the user exits, ARGGITTER returns the user's old
-arglist, if needed.
-
-
-## Customization
-"     This function relies on "g:arg_list_temp_file" to write to disk.
-
-
-TODO
-TODO Make sure that this plugin works in Windows for the temp file...
-
-            return bool(int(vim.eval('g:arggitter_allow_submodules')))
-
-Add an option to restore buffers
-
-Remove the "zz"s. People won't like those.
+into Vim's arglist. While in ARGGITTER mode, you can only move from the current
+file to the next in the arglist. When the user exits, ARGGITTER returns the
+user's old arglist, if needed.
