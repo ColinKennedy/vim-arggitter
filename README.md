@@ -50,15 +50,16 @@ Move the files to their respective folders in your `~/.vim` directory
 ## Mappings
 By default, vim-arggitter uses mappings that are "vim-friendly".
 
-|                 Mapping                  |               Description               |
-|------------------------------------------|-----------------------------------------|
-| let g:arggitter_enter_mapping = 'gm'     | Go into ARGGITTER mode                  |
-| let g:arggitter_exit_mapping = '<ESC>'   | Leave ARGITTER mode                     |
-|                                          |                                         |
-| let g:arggitter_add_hunk_mapping = 'aa'  | Stage the current hunk under the cursor |
-| let g:arggitter_add_file_mapping = 'aG'  | Stage all hunks on or below the cursor  |
-| let g:arggitter_next_hunk_mapping = 'nn' | Skip to the next hunk                   |
-| let g:arggitter_next_file_mapping = 'nG' | Skip to the next file                   |
+|                 Mapping                    |               Description               |
+|--------------------------------------------|-----------------------------------------|
+| let g:arggitter_enter_mapping = 'gm'       | Go into ARGGITTER mode                  |
+| let g:arggitter_exit_mapping = '<ESC>'     | Leave ARGITTER mode                     |
+| let g:arggitter_auto_exit = '0'            | Leave ARGGITTER mode if no more hunks   |
+|                                            |                                         |
+| let g:arggitter_stage_hunk_mapping = 'aa'  | Stage the current hunk under the cursor |
+| let g:arggitter_stage_file_mapping = 'aG'  | Stage all hunks on or below the cursor  |
+| let g:arggitter_next_hunk_mapping = 'nn'   | Skip to the next hunk                   |
+| let g:arggitter_next_file_mapping = 'nG'   | Skip to the next file                   |
 
 If you want the same mappings as you'd use for `git add -p`, add this line
 to your `~/.vimrc`:
