@@ -14,14 +14,34 @@
 "      l = Shows the repository log
 "
 function! arggitter#arggitter#create_git_submode()
-    call submode#enter_with('ARGGITTER', 'n', '', 'gm', '<ESC>:call arggitter#utility#enter()<CR>')
+    let l:enter_mapping = get(g:, 'arggitter_enter_mapping', 'gm')
+    let l:exit_mapping = get(g:, 'arggitter_exit_mapping', '<ESC>')
+
+    call submode#enter_with('ARGGITTER', 'n', '', l:enter_mapping, '<ESC>:call arggitter#utility#enter()<CR>')
+    call submode#leave_with('ARGGITTER', 'n', '', l:exit_mapping, '<ESC>:call arggitter#utility#exit()<CR>')
 
     if get(g:, 'arggitter_use_git_mappings', 0) == 0
-        call submode#leave_with('ARGGITTER', 'n', '', '<ESC>', '<ESC>:call arggitter#utility#exit()<CR>')
-        call submode#map('ARGGITTER', 'n', '', 'aa', '<ESC>:GitGutterStageHunk<CR>:call arggitter#arggitter#next_hunk()<CR>zz')
-        call submode#map('ARGGITTER', 'n', '', 'aG', '<ESC>:call arggitter#arggitter#stage_hunks_in_file()<CR>zz')
-        call submode#map('ARGGITTER', 'n', '', 'nn', '<ESC>:call arggitter#arggitter#next_hunk()<CR>zz')
-        call submode#map('ARGGITTER', 'n', '', 'nG', '<ESC>:call arggitter#arggitter#next_file()<CR>zz')
+        let l:add_hunk_mapping = get(g:, 'arggitter_add_hunk_mapping', 'aa')
+        let l:add_file_mapping = get(g:, 'arggitter_add_file_mapping', 'aG')
+        let l:next_hunk_mapping = get(g:, 'arggitter_next_hunk_mapping', 'nn')
+        let l:next_file_mapping = get(g:, 'arggitter_next_file_mapping', 'nG')
+
+        if l:add_hunk_mapping != ""
+            call submode#map('ARGGITTER', 'n', '', l:add_hunk_mapping, '<ESC>:GitGutterStageHunk<CR>:call arggitter#arggitter#next_hunk()<CR>zz')
+        endif
+
+        if l:add_file_mapping != ""
+            call submode#map('ARGGITTER', 'n', '', l:add_file_mapping, '<ESC>:call arggitter#arggitter#stage_hunks_in_file()<CR>zz')
+        endif
+
+        if l:next_hunk_mapping != ""
+            call submode#map('ARGGITTER', 'n', '', l:next_hunk_mapping, '<ESC>:call arggitter#arggitter#next_hunk()<CR>zz')
+        endif
+
+        if l:next_file_mapping != ""
+            call submode#map('ARGGITTER', 'n', '', l:next_file_mapping, '<ESC>:call arggitter#arggitter#next_file()<CR>zz')
+        endif
+
         call submode#map('ARGGITTER', 'n', '', 'N', '<ESC>:call arggitter#arggitter#previous_hunk()<CR>zz')
         call submode#map('ARGGITTER', 'n', '', 'u', '<ESC>:GitGutterUndoHunk<CR>gm')
 
@@ -39,16 +59,39 @@ function! arggitter#arggitter#create_git_submode()
     endif
 
     if get(g:, 'arggitter_use_git_mappings', 0) == 0 && exists('g:loaded_fugitive')
-        " If the user has vim-fugitive installed, add mappings for it
-        call submode#map('ARGGITTER', 'n', '', 'b', '<ESC>:Gblame<CR>')
-        call submode#map('ARGGITTER', 'n', '', 'c', '<ESC>:Gcommit<CR>')
-        call submode#map('ARGGITTER', 'n', '', 's', '<ESC>:Gstatus<CR>')
-        call submode#map('ARGGITTER', 'n', '', 'w', '<ESC>:Gwrite<CR>')
+        let l:blame_mapping = get(g:, 'arggitter_fugitive_blame_mapping', 'b')
+        let l:commit_mapping = get(g:, 'arggitter_fugitive_commit_mapping', 'c')
+        let l:status_mapping = get(g:, 'arggitter_fugitive_status_mapping', 's')
+        let l:write_mapping = get(g:, 'arggitter_fugitive_write_mapping', 'w')
+        let l:log_qf_mapping = get(g:, 'argitter_fugitive_log_qf_mapping', 'l')
+        let l:log_summary_mapping = get(g:, 'argitter_fugitive_log_summary_mapping', 'i')
 
-        " This will show the log messages for your current file, in a QuickFix
-        call submode#map('ARGGITTER', 'n', '', 'l', '<ESC>:Glog<CR>')
-        " This will load the file into a summary+tree, instead of a QuickFix
-        call submode#map('ARGGITTER', 'n', '', 'i', '<ESC>:Glog -- %<CR>')
+        " If the user has vim-fugitive installed, add mappings for it
+        if l:blame_mapping != ""
+            call submode#map('ARGGITTER', 'n', '', l:blame_mapping, '<ESC>:Gblame<CR>')
+        endif
+
+        if l:commit_mapping != ""
+            call submode#map('ARGGITTER', 'n', '', l:commit_mapping, '<ESC>:Gcommit<CR>')
+        endif
+
+        if l:status_mapping != ""
+            call submode#map('ARGGITTER', 'n', '', l:status_mapping, '<ESC>:Gstatus<CR>')
+        endif
+
+        if l:write_mapping != ""
+            call submode#map('ARGGITTER', 'n', '', l:write_mapping, '<ESC>:Gwrite<CR>')
+        endif
+
+        if l:log_qf_mapping != ""
+            " This will show the log messages for your current file, in a QuickFix
+            call submode#map('ARGGITTER', 'n', '', l:log_qf_mapping, '<ESC>:Glog<CR>')
+        endif
+
+        if l:log_summary_mapping != ""
+            " This will load the file into a summary+tree, instead of a QuickFix
+            call submode#map('ARGGITTER', 'n', '', l:log_summary_mapping, '<ESC>:Glog -- %<CR>')
+        endif
     endif
 endfunction
 
