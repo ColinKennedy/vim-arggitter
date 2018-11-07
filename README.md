@@ -2,7 +2,7 @@ The vim-arggitter Vim plugin brings `git add -p` to Vim.
 
 For those you that like demos:
 
-TODO add a demo
+[![asciicast](https://asciinema.org/a/210518.svg)](https://asciinema.org/a/210518)
 
 
 ## Requirements
