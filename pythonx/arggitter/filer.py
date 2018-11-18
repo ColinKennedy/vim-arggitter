@@ -68,7 +68,7 @@ def _split_path_asunder(path):
 
 def get_current_absolute_path():
     '''str: The absolute path to the user's current file.'''
-    return vim.eval("expand('%')")
+    return vim.eval("expand('%:p')")
 
 
 def get_current_git_root():
@@ -125,7 +125,7 @@ def get_unstaged_git_files(path, allow_submodules=False):
     def _is_submodule(root):
         # This command returns nothing if it is not a submodule
         result = subprocess.check_output(
-            ['git -C "{root}" rev-parse --show-superproject-working-tree'.format(root=root)],
+            'git -C "{root}" rev-parse --show-superproject-working-tree'.format(root=root),
             shell=True,
         )
 
@@ -133,7 +133,7 @@ def get_unstaged_git_files(path, allow_submodules=False):
 
     root = get_parent_git_root(path)
     command = 'git -C "{root}" diff --name-only'.format(root=root)
-    result = subprocess.check_output([command], shell=True)
+    result = subprocess.check_output(command, shell=True)
     output = []
     for item in result.splitlines():
         subpath = os.path.join(root, item)

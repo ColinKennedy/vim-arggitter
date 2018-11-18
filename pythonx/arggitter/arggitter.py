@@ -61,6 +61,9 @@ def override_arg_list():
     In scenario #2, the current file buffer is completely ignored and whatever
     the arg-list's file file path is given focus, instead.
 
+    Raises:
+        EnvironmentError: If not git repository could be found for the current file.
+
     '''
     def _allow_submodules():
         try:
@@ -69,6 +72,10 @@ def override_arg_list():
             return False
 
     root = filer.get_current_git_root()
+
+    if not root:
+        raise EnvironmentError('No root git repository could be found')
+
     current_file = filer.get_current_absolute_path()
     unstaged_files = (
         _esc(os.path.join(root, path))
