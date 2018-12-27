@@ -7,6 +7,7 @@ For those you that like demos:
 
 ## Requirements
 - Vim with Python compiled (2 or 3)
+- [vim-gitgutter](https://github.com/airblade/vim-gitgutter)
 - [vim-submode](https://www.github.com/ColinKennedy/vim-submode)
 - [Git 2.13+](https://github.com/git/git)
 
