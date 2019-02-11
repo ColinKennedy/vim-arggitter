@@ -66,7 +66,7 @@ function! arggitter#arggitter#create_git_submode()
         let l:status_mapping = get(g:, 'arggitter_fugitive_status_mapping', 's')
         let l:write_mapping = get(g:, 'arggitter_fugitive_write_mapping', 'w')
         let l:log_qf_mapping = get(g:, 'argitter_fugitive_log_qf_mapping', 'l')
-        let l:log_summary_mapping = get(g:, 'argitter_fugitive_log_summary_mapping', 'i')
+        let l:log_summary_mapping = get(g:, 'argitter_fugitive_log_summary_mapping', 't')
 
         " If the user has vim-fugitive installed, add mappings for it
         if l:blame_mapping != ""
