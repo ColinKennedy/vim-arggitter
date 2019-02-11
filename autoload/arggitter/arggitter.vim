@@ -29,22 +29,22 @@ function! arggitter#arggitter#create_git_submode()
         let l:next_file_mapping = get(g:, 'arggitter_next_file_mapping', 'nG')
 
         if l:stage_hunk_mapping != ""
-            call submode#map(g:arggitter_mode_name, 'n', '', l:stage_hunk_mapping, '<ESC>:GitGutterStageHunk<CR>:call arggitter#arggitter#next_hunk()<CR>zz')
+            call submode#map(g:arggitter_mode_name, 'n', '', l:stage_hunk_mapping, '<ESC>:GitGutterStageHunk<CR>:call arggitter#arggitter#next_hunk()<CR>')
         endif
 
         if l:stage_file_mapping != ""
-            call submode#map(g:arggitter_mode_name, 'n', '', l:stage_file_mapping, '<ESC>:call arggitter#arggitter#stage_hunks_in_file()<CR>zz')
+            call submode#map(g:arggitter_mode_name, 'n', '', l:stage_file_mapping, '<ESC>:call arggitter#arggitter#stage_hunks_in_file()<CR>')
         endif
 
         if l:next_hunk_mapping != ""
-            call submode#map(g:arggitter_mode_name, 'n', '', l:next_hunk_mapping, '<ESC>:call arggitter#arggitter#next_hunk()<CR>zz')
+            call submode#map(g:arggitter_mode_name, 'n', '', l:next_hunk_mapping, '<ESC>:call arggitter#arggitter#next_hunk()<CR>')
         endif
 
         if l:next_file_mapping != ""
-            call submode#map(g:arggitter_mode_name, 'n', '', l:next_file_mapping, '<ESC>:call arggitter#arggitter#next_file()<CR>zz')
+            call submode#map(g:arggitter_mode_name, 'n', '', l:next_file_mapping, '<ESC>:call arggitter#arggitter#next_file()<CR>')
         endif
 
-        call submode#map(g:arggitter_mode_name, 'n', '', 'N', '<ESC>:call arggitter#arggitter#previous_hunk()<CR>zz')
+        call submode#map(g:arggitter_mode_name, 'n', '', 'N', '<ESC>:call arggitter#arggitter#previous_hunk()<CR>')
         call submode#map(g:arggitter_mode_name, 'n', '', 'u', '<ESC>:GitGutterUndoHunk<CR>gm')
 
         " A couple hotkeys to make it easier to look around, in ARGGITTER mode
@@ -53,11 +53,11 @@ function! arggitter#arggitter#create_git_submode()
         call submode#map(g:arggitter_mode_name, 'n', '', 'zt', '<ESC>zt')
         call submode#map(g:arggitter_mode_name, 'n', '', 'zb', '<ESC>zb')
     else
-        call submode#map(g:arggitter_mode_name, 'n', '', 'y', '<ESC>:GitGutterStageHunk<CR>:call arggitter#arggitter#next_hunk()<CR>zz')
-        call submode#map(g:arggitter_mode_name, 'n', '', 'n', '<ESC>:call arggitter#arggitter#next_hunk()<CR>zz')
+        call submode#map(g:arggitter_mode_name, 'n', '', 'y', '<ESC>:GitGutterStageHunk<CR>:call arggitter#arggitter#next_hunk()<CR>')
+        call submode#map(g:arggitter_mode_name, 'n', '', 'n', '<ESC>:call arggitter#arggitter#next_hunk()<CR>')
         call submode#leave_with(g:arggitter_mode_name, 'n', '', 'q', '<ESC>:call arggitter#utility#exit()<CR>')
-        call submode#map(g:arggitter_mode_name, 'n', '', 'a', '<ESC>:GitGutterStageHunksInFile<CR>:call arggitter#arggitter#next_hunk()<CR>zz')
-        call submode#map(g:arggitter_mode_name, 'n', '', 'd', '<ESC>:call arggitter#arggitter#next_file()<CR>zz')
+        call submode#map(g:arggitter_mode_name, 'n', '', 'a', '<ESC>:GitGutterStageHunksInFile<CR>:call arggitter#arggitter#next_hunk()<CR>')
+        call submode#map(g:arggitter_mode_name, 'n', '', 'd', '<ESC>:call arggitter#arggitter#next_file()<CR>')
     endif
 
     if get(g:, 'arggitter_use_git_mappings', 0) == 0 && exists('g:loaded_fugitive')
