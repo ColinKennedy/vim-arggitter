@@ -52,6 +52,8 @@ function! arggitter#arggitter#create_git_submode()
         call submode#map(g:arggitter_mode_name, 'n', '', 'G', '<ESC>G')
         call submode#map(g:arggitter_mode_name, 'n', '', 'zt', '<ESC>zt')
         call submode#map(g:arggitter_mode_name, 'n', '', 'zb', '<ESC>zb')
+        call submode#map(g:arggitter_mode_name, 'n', '', '<C-i>', '<ESC><C-i>')
+        call submode#map(g:arggitter_mode_name, 'n', '', '<C-o>', '<ESC><C-o>')
     else
         call submode#map(g:arggitter_mode_name, 'n', '', 'y', '<ESC>:GitGutterStageHunk<CR>:call arggitter#arggitter#next_hunk()<CR>')
         call submode#map(g:arggitter_mode_name, 'n', '', 'n', '<ESC>:call arggitter#arggitter#next_hunk()<CR>')
