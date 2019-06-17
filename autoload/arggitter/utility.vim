@@ -53,6 +53,10 @@ pythonx << EOF
 from arggitter import arggitter
 arggitter.enter_arg_list()
 EOF
+
+    if get(g:, 'arggitter_highlight_lines', 1)
+        GitGutterLineHighlightsEnable
+    endif
 endfunction
 
 
@@ -60,6 +64,10 @@ endfunction
 function! arggitter#utility#exit()
     call s:ClearArgList()
     call s:RestoreArgList()
+
+    if get(g:, 'arggitter_highlight_lines', 1)
+        GitGutterLineHighlightsDisable
+    endif
 endfunction
 
 

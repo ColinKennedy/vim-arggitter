@@ -12,6 +12,8 @@ if get(g:, 'arggitter_loaded', '0') == '1'
     finish
 endif
 
+let g:arggitter_highlight_lines = get(g:, 'arggitter_highlight_lines', 1)
+
 
 call arggitter#arggitter#create_git_submode()
 
