@@ -45,7 +45,7 @@ function! arggitter#arggitter#create_git_submode()
         endif
 
         call submode#map(g:arggitter_mode_name, 'n', '', 'N', '<ESC>:call arggitter#arggitter#previous_hunk()<CR>')
-        call submode#map(g:arggitter_mode_name, 'n', '', 'u', '<ESC>:GitGutterUndoHunk<CR>gm')
+        call submode#map(g:arggitter_mode_name, 'n', '', 'u', '<ESC>:GitGutterUndoHunk<CR>:call arggitter#arggitter#force_refresh()<CR>')
 
         " A couple hotkeys to make it easier to look around, in ARGGITTER mode
         call submode#map(g:arggitter_mode_name, 'n', '', 'gg', '<ESC>gg')
@@ -97,6 +97,11 @@ function! arggitter#arggitter#create_git_submode()
             call submode#map(g:arggitter_mode_name, 'n', '', l:log_summary_mapping, '<ESC>:Glog -- %<CR>')
         endif
     endif
+endfunction
+
+
+function! arggitter#arggitter#force_refresh()
+    call gitgutter#process_buffer(bufnr(''), 1)
 endfunction
 
 
