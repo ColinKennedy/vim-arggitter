@@ -28,7 +28,7 @@ function! s:FixToggle()
   endif
 endfunction
 
-autocmd! BufEnter * call s:FixToggle()
+autocmd! BufEnter *.* call s:FixToggle()
 
 
 let g:arggitter_loaded = '1'
