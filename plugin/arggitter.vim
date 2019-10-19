@@ -17,5 +17,18 @@ let g:arggitter_highlight_lines = get(g:, 'arggitter_highlight_lines', 1)
 
 call arggitter#arggitter#create_git_submode()
 
+" This function + autocmd fixes an issue where, if you swap buffers,
+" gitgutter's highlighted lines will stick around even though you've
+" already exitted the submode. It's basically a fix to get around a bug
+" in vim-submode.
+"
+function! s:FixToggle()
+  if g:gitgutter_highlight_lines && submode#current() != "ARGGITTER"
+    call gitgutter#highlight#line_disable()
+  endif
+endfunction
+
+autocmd! BufEnter * call s:FixToggle()
+
 
 let g:arggitter_loaded = '1'
