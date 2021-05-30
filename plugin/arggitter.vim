@@ -1,10 +1,12 @@
 if !has('pythonx')
-    echo 'Python is not installed. This plug-in requires Python to run. Exitting.'
+    silent !echo 'Python is not installed. This plug-in requires Python to run. Exitting.'
+
     finish
 endif
 
 if system('git') !~ '\C[-C'  " If there is not `git -C` option
-    echo 'Git is too old to run arggitter.'
+    silent !echo 'Git is too old to run arggitter.'
+
     finish
 endif
 
