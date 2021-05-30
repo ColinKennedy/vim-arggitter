@@ -25,7 +25,7 @@ call arggitter#arggitter#create_git_submode()
 " in vim-submode.
 "
 function! s:FixToggle()
-  if g:gitgutter_highlight_lines && submode#current() != "ARGGITTER"
+  if get(g:, "gitgutter_highlight_lines") && submode#current() != "ARGGITTER"
     call gitgutter#highlight#line_disable()
   endif
 endfunction
